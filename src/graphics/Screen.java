@@ -3,9 +3,6 @@ package graphics;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
 import static java.util.Objects.isNull;
 
@@ -17,9 +14,11 @@ public class Screen extends Canvas implements Runnable{
         private JFrame jFrame;
         private Graphics graphics;
         private Sprite sprite;
-        private int link;
+        private int position;
+        private float frame = 0;
+        private  float maxFrames = 1.5f;
         private  int animation = 0;
-        private int maxAnimation = 1044;
+        private final int maxAnimation = 1044;
 
         public Screen (int width, int height, String title) {
             jFrame = new JFrame(title);
@@ -75,13 +74,23 @@ public class Screen extends Canvas implements Runnable{
         }
 
         public void update () {
-            if (animation >= maxAnimation) {
-                animation =  0;
+            frame += 0.5f;
+            if (frame > maxFrames) {
+                frame = 0;
+
+                animation += 116; // No próximo loop a segunda animação será renderizada
+
+                if (animation == maxAnimation) {
+                    animation =  0;
+                }
+                position++;
             }
-            link++;
+
+
+
         }
 
-        public void clean (Graphics graphics) {
+        public void clean () {
             graphics.setColor(new Color(255, 255, 255));
             graphics.fillRect(0,0,width, height);
         }
@@ -98,12 +107,11 @@ public class Screen extends Canvas implements Runnable{
 
             if (isNull(sprite)) sprite = new Sprite("/images/link.png");
 
-            graphics.drawImage(sprite.getImageByPosition(animation,0, 116, 116), link, 300,null);
-            animation += 116; // No próximo loop a segunda animação será renderizada
+            graphics.drawImage(sprite.getImageByPosition(animation,0, 116, 116), position, 300,null);
 
             bufferStrategy.show();
 
-            clean(graphics); // Limpa a tela
+            clean(); // Limpa a tela
         }
 
         public void close () {
