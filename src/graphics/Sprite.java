@@ -4,8 +4,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import static java.util.Objects.isNull;
-
 public class Sprite {
 
     private BufferedImage bufferedImage;

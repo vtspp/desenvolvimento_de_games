@@ -1,8 +1,15 @@
 package graphics;
 
+import controller.Controller;
+import entities.Game;
+import entities.Link;
+import entities.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Objects.isNull;
 
@@ -20,45 +27,14 @@ public class Screen extends Canvas implements Runnable{
         private  int animation = 0;
         private final int maxAnimation = 1044;
 
+        private List<Player> players;
+        private Game game;
+
         public Screen (int width, int height, String title) {
             jFrame = new JFrame(title);
             this.width = width;
             this.height = height;
             this.title = title;
-        }
-
-        @Override
-        public int getWidth() {
-            return width;
-        }
-
-        public void setWidth(int width) {
-            this.width = width;
-        }
-
-        @Override
-        public int getHeight() {
-            return height;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public JFrame getJFrame() {
-            return jFrame;
-        }
-
-        public void setJFrame(JFrame jFrame) {
-            this.jFrame = jFrame;
         }
 
         public void create () {
@@ -74,20 +50,35 @@ public class Screen extends Canvas implements Runnable{
         }
 
         public void update () {
+
+            if (isNull(players)) {
+                players = new ArrayList<>();
+                players.add(new Link("Link", 100, 70, 1));
+            }
+
+            if (isNull(game)) new Game(this, new Controller(players), players);
+
             frame += 0.5f;
             if (frame > maxFrames) {
                 frame = 0;
 
-                animation += 116; // No próximo loop a segunda animação será renderizada
+                int walk = players.get(0).walk();
+
+                if (walk >= 1) {
+                    animation += 116;
+                    position ++;
+                }
+                if (walk <= -1) {
+                    animation = 464;
+                    position --;
+                }
+
+                if (walk == 0) animation = 464;
 
                 if (animation == maxAnimation) {
                     animation =  0;
                 }
-                position++;
             }
-
-
-
         }
 
         public void clean () {

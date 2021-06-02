@@ -1,5 +1,12 @@
+import controller.Controller;
+import entities.Game;
+import entities.Link;
+import entities.Player;
 import run.Run;
 import graphics.Screen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Application {
 
@@ -9,6 +16,8 @@ public class Application {
         screen.create();
         screen.configure(false, true);
         screen.close();
+
+        // Execução sem threads
         //screen.run();
 
         // Executa o game com threads

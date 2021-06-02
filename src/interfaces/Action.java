@@ -1,8 +1,8 @@
 package interfaces;
 
 public interface Action {
-    void walk ();
-    void run ();
-    void jump ();
-    void attack ();
+    int walk ();
+    int run ();
+    int jump ();
+    int attack ();
 }
