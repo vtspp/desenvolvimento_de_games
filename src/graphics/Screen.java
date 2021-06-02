@@ -29,6 +29,7 @@ public class Screen extends Canvas implements Runnable{
 
         private List<Player> players;
         private Game game;
+        Controller controller;
 
         public Screen (int width, int height, String title) {
             jFrame = new JFrame(title);
@@ -56,13 +57,17 @@ public class Screen extends Canvas implements Runnable{
                 players.add(new Link("Link", 100, 70, 1));
             }
 
-            if (isNull(game)) new Game(this, new Controller(players), players);
+            if (isNull(controller)) controller = new Controller(players);
+
+            if (isNull(game)) game = new Game(this, controller, players);
 
             frame += 0.5f;
             if (frame > maxFrames) {
                 frame = 0;
 
-                int walk = players.get(0).walk();
+                Integer walk = game.getPlayers().get(0).walk();
+
+                if (walk == 0) animation = 464;
 
                 if (walk >= 1) {
                     animation += 116;
@@ -72,8 +77,6 @@ public class Screen extends Canvas implements Runnable{
                     animation = 464;
                     position --;
                 }
-
-                if (walk == 0) animation = 464;
 
                 if (animation == maxAnimation) {
                     animation =  0;

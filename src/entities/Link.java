@@ -7,23 +7,22 @@ public class Link extends Player {
     }
 
     @Override
-    public int walk() {
-        System.out.println("Link Andou " + getX());
+    public Integer walk() {
         return getX();
     }
 
     @Override
-    public int run() {
+    public Integer run() {
         return 0;
     }
 
     @Override
-    public int jump() {
+    public Integer jump() {
         return 0;
     }
 
     @Override
-    public int attack() {
+    public Integer attack() {
         return 0;
     }
 }

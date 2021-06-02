@@ -17,4 +17,16 @@ public class Game {
         this.players = players;
         screen.addKeyListener(controller);
     }
+
+    public Screen getScreen() {
+        return screen;
+    }
+
+    public Controller getController() {
+        return controller;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
 }
