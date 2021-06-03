@@ -91,7 +91,11 @@ public class Screen extends Canvas implements Runnable{
 
                 // Verifica e controla se o personagem deve correr
                 boolean run = game.getPlayers().get(0).isRun();
-                if (run) maxFrames = 0;
+                if (run) {
+                    maxFrames = 0;
+                    if (direction == 0) position += 3;
+                    if (direction == 116) position -= 3;
+                }
                 else maxFrames = 1.5f;
 
                 if (animation == maxAnimation || animation == -maxAnimation) {
