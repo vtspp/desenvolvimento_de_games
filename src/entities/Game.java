@@ -18,6 +18,11 @@ public class Game {
         screen.addKeyListener(controller);
     }
 
+    public Game (Controller controller, List<Player> players) {
+        this.controller = controller;
+        this.players = players;
+    }
+
     public Screen getScreen() {
         return screen;
     }

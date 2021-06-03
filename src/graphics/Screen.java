@@ -19,23 +19,39 @@ public class Screen extends Canvas implements Runnable{
         private int height;
         private String title;
         private JFrame jFrame;
+        private BufferStrategy bufferStrategy;
         private Graphics graphics;
         private Sprite sprite;
         private int position;
+        private int direction;
         private float frame = 0;
         private  float maxFrames = 1.5f;
         private  int animation = 0;
         private final int maxAnimation = 1044;
-
         private List<Player> players;
+        private Controller controller;
         private Game game;
-        Controller controller;
 
         public Screen (int width, int height, String title) {
             jFrame = new JFrame(title);
             this.width = width;
             this.height = height;
             this.title = title;
+            initialize();
+        }
+
+        public void initialize () {
+
+            if (isNull(players)) {
+                players = new ArrayList<>();
+                players.add(new Link("Link", 100, 70, 1));
+            }
+
+            if (isNull(controller)) controller = new Controller(players);
+
+            if (isNull(game)) game = new Game(controller, players);
+
+            this.addKeyListener(controller); // Inicializa os controles
         }
 
         public void create () {
@@ -52,33 +68,28 @@ public class Screen extends Canvas implements Runnable{
 
         public void update () {
 
-            if (isNull(players)) {
-                players = new ArrayList<>();
-                players.add(new Link("Link", 100, 70, 1));
-            }
-
-            if (isNull(controller)) controller = new Controller(players);
-
-            if (isNull(game)) game = new Game(this, controller, players);
-
             frame += 0.5f;
             if (frame > maxFrames) {
                 frame = 0;
 
                 Integer walk = game.getPlayers().get(0).walk();
 
-                if (walk == 0) animation = 464;
+                // Posiciona o sprite na posição inicial
+                if (walk == 0 && direction == 0) animation = 464;
+                if (walk == 0 && direction == 116) animation = 116;
 
                 if (walk >= 1) {
                     animation += 116;
+                    direction = 0;
                     position ++;
                 }
                 if (walk <= -1) {
-                    animation = 464;
+                    animation += 116;
+                    direction = 116;
                     position --;
                 }
 
-                if (animation == maxAnimation) {
+                if (animation == maxAnimation || animation == -maxAnimation) {
                     animation =  0;
                 }
             }
@@ -90,18 +101,18 @@ public class Screen extends Canvas implements Runnable{
         }
 
         public void render () {
-            BufferStrategy bufferStrategy = this.getBufferStrategy();
 
             if (isNull(bufferStrategy)) {
                 this.createBufferStrategy(3);
-                return;
             }
+
+            bufferStrategy = this.getBufferStrategy();
 
             if (isNull(graphics)) graphics = bufferStrategy.getDrawGraphics();
 
             if (isNull(sprite)) sprite = new Sprite("/images/link.png");
 
-            graphics.drawImage(sprite.getImageByPosition(animation,0, 116, 116), position, 300,null);
+            graphics.drawImage(sprite.getImageByPosition(animation,direction, 116, 116), position, 300,null);
 
             bufferStrategy.show();
 

@@ -51,7 +51,7 @@ public class Controller  implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        x = 0; // Valor inicial que sempre iniciará
+        x = 0; // Retorna ao valor inicial
         y = 0;
         switch (e.getKeyCode()) {
             case VK_RIGHT:
