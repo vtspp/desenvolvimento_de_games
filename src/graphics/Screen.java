@@ -72,7 +72,7 @@ public class Screen extends Canvas implements Runnable{
             if (frame > maxFrames) {
                 frame = 0;
 
-                Integer walk = game.getPlayers().get(0).walk();
+                int walk = game.getPlayers().get(0).walk();
 
                 // Posiciona o sprite na posição inicial
                 if (walk == 0 && direction == 0) animation = 464;

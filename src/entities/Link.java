@@ -7,22 +7,22 @@ public class Link extends Player {
     }
 
     @Override
-    public Integer walk() {
+    public int walk() {
         return getX();
     }
 
     @Override
-    public Integer run() {
+    public int run() {
         return 0;
     }
 
     @Override
-    public Integer jump() {
+    public int jump() {
         return 0;
     }
 
     @Override
-    public Integer attack() {
+    public int attack() {
         return 0;
     }
 }

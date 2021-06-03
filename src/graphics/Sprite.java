@@ -8,7 +8,7 @@ public class Sprite {
 
     private BufferedImage bufferedImage;
 
-    public Sprite(String path) {
+    protected Sprite(String path) {
         if (bufferedImage == null)
         read(path);
     }
