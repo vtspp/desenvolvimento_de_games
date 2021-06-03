@@ -4,25 +4,19 @@ import entities.Player;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.List;
 
 import static java.awt.event.KeyEvent.*;
 
 public class Controller  implements KeyListener {
 
-    private List<Player> players;
+    private Player player;
 
-    private int x;
-    private int y;
-    private boolean run;
-
-    public Controller(List<Player> players) {
-        this.players = players;
+    public Controller(Player player) {
+        this.player = player;
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -30,50 +24,56 @@ public class Controller  implements KeyListener {
         switch (e.getKeyCode()) {
             case VK_RIGHT:
             case VK_D:
-                players.forEach(player -> player.setX(++x));
+                player.setRight(true);
                 break;
 
             case VK_LEFT:
             case VK_A:
-                players.forEach(player -> player.setX(--x));
+                player.setLeft(true);
                 break;
 
             case VK_DOWN:
             case VK_X:
-                players.forEach(player -> player.setY(++y));
+                player.setDown(true);
                 break;
 
             case VK_UP:
             case VK_W:
-                players.forEach(player -> player.setY(--y));
+                player.setUp(true);
                 break;
 
             case VK_R:
-                players.forEach(player -> player.setRun(true));
+                player.setRun(true);
+                break;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        x = 0; // Retorna ao valor inicial
-        y = 0;
         switch (e.getKeyCode()) {
             case VK_RIGHT:
             case VK_D:
+                player.setRight(false);
+                break;
+
             case VK_LEFT:
             case VK_A:
-                players.forEach(player -> player.setX(x));
+                player.setLeft(false);
                 break;
 
             case VK_DOWN:
             case VK_X:
+                player.setDown(false);
+                break;
+
             case VK_UP:
             case VK_W:
-                players.forEach(player -> player.setY(y));
+                player.setUp(false);
                 break;
 
             case VK_R:
-                players.forEach(player -> player.setRun(false));
+                player.setRun(false);
+                break;
         }
     }
 }

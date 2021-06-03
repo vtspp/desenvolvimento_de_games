@@ -26,5 +26,4 @@ public class Sprite {
     protected BufferedImage getImageByPosition (int x, int y, int width, int height) {
         return bufferedImage.getSubimage(x, y, width, height);
     }
-
 }

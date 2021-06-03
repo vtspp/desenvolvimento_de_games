@@ -1,12 +1,5 @@
-import controller.Controller;
-import entities.Game;
-import entities.Link;
-import entities.Player;
-import run.Run;
 import graphics.Screen;
-
-import java.util.ArrayList;
-import java.util.List;
+import run.Run;
 
 public class Application {
 

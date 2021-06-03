@@ -1,8 +1,11 @@
 package interfaces;
 
 public interface Action {
-    int walk ();
+    boolean right ();
+    boolean left ();
+    boolean up ();
+    boolean down ();
     boolean run ();
-    int jump ();
-    int attack ();
+    boolean jump ();
+    boolean attack ();
 }

@@ -1,15 +1,12 @@
 package graphics;
 
 import controller.Controller;
-import entities.Game;
 import entities.Link;
 import entities.Player;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
-import java.util.List;
 
 import static java.util.Objects.isNull;
 
@@ -28,9 +25,8 @@ public class Screen extends Canvas implements Runnable{
         private  float maxFrames = 1.5f;
         private  int animation = 0;
         private final int maxAnimation = 1044;
-        private List<Player> players;
+        private Player player;
         private Controller controller;
-        private Game game;
 
         public Screen (int width, int height, String title) {
             jFrame = new JFrame(title);
@@ -42,14 +38,11 @@ public class Screen extends Canvas implements Runnable{
 
         public void initialize () {
 
-            if (isNull(players)) {
-                players = new ArrayList<>();
-                players.add(new Link("Link", 100, 70, 1));
+            if (isNull(player)) {
+                player = new Link("Link", 100, 70, 1);
             }
 
-            if (isNull(controller)) controller = new Controller(players);
-
-            if (isNull(game)) game = new Game(controller, players);
+            if (isNull(controller)) controller = new Controller(player);
 
             this.addKeyListener(controller); // Inicializa os controles
         }
@@ -72,26 +65,29 @@ public class Screen extends Canvas implements Runnable{
             if (frame > maxFrames) {
                 frame = 0;
 
-                int walk = game.getPlayers().get(0).walk();
+                boolean right = player.right();
+                boolean left = player.left();
+                boolean up = player.up();
+                boolean down = player.down();
 
                 // Posiciona o sprite na posição inicial
-                if (walk == 0 && direction == 0) animation = 464;
-                if (walk == 0 && direction == 116) animation = 116;
+                if (!right && direction == 0) animation = 464;
+                if (!left && direction == 116) animation = 116;
 
-                if (walk >= 1) {
+                if (right) {
                     animation += 116;
                     direction = 0;
                     position ++;
                 }
-                if (walk <= -1) {
+                else if (left) {
                     animation += 116;
                     direction = 116;
                     position --;
                 }
 
                 // Verifica e controla se o personagem deve correr
-                boolean run = game.getPlayers().get(0).isRun();
-                if (run) {
+                boolean run = player.isRun();
+                if (run && right || run && left) {
                     maxFrames = 0;
                     if (direction == 0) position += 3;
                     if (direction == 116) position -= 3;

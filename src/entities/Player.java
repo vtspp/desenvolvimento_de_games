@@ -1,11 +1,8 @@
 package entities;
 
-import controller.Controller;
 import interfaces.Action;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Player implements Action, Serializable {
     private final static long serialVersionUID = 1L;
@@ -14,18 +11,19 @@ public abstract class Player implements Action, Serializable {
     private int hp;
     private int force;
     private int speed;
-    private int x;
-    private int y;
+    private boolean right;
+    private boolean left;
+    private boolean up;
+    private boolean down;
     private boolean run;
-    private Controller controller;
-    private List<Player> players = new ArrayList<>();
+    private boolean attack;
+    private boolean jump;
 
     public Player(String name, int hp, int force, int speed) {
         this.name = name;
         this.hp = hp;
         this.force = force;
         this.speed = speed;
-        this.controller = new Controller(players);
     }
 
     public String getName() {
@@ -60,20 +58,36 @@ public abstract class Player implements Action, Serializable {
         this.speed = speed;
     }
 
-    public int getX() {
-        return x;
+    public boolean isRight() {
+        return right;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setRight(boolean right) {
+        this.right = right;
     }
 
-    public int getY() {
-        return y;
+    public boolean isLeft() {
+        return left;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public boolean isDown() {
+        return down;
+    }
+
+    public void setDown(boolean down) {
+        this.down = down;
     }
 
     public boolean isRun() {
@@ -82,5 +96,21 @@ public abstract class Player implements Action, Serializable {
 
     public void setRun(boolean run) {
         this.run = run;
+    }
+
+    public boolean isAttack() {
+        return attack;
+    }
+
+    public void setAttack(boolean attack) {
+        this.attack = attack;
+    }
+
+    public boolean isJump() {
+        return jump;
+    }
+
+    public void setJump(boolean jump) {
+        this.jump = jump;
     }
 }

@@ -6,9 +6,25 @@ public class Link extends Player {
         super(name, hp, force, speed);
     }
 
+
     @Override
-    public int walk() {
-        return getX();
+    public boolean right() {
+        return isRight();
+    }
+
+    @Override
+    public boolean left() {
+        return isLeft();
+    }
+
+    @Override
+    public boolean up() {
+        return isUp();
+    }
+
+    @Override
+    public boolean down() {
+        return isDown();
     }
 
     @Override
@@ -17,12 +33,12 @@ public class Link extends Player {
     }
 
     @Override
-    public int jump() {
-        return 0;
+    public boolean jump() {
+        return isJump();
     }
 
     @Override
-    public int attack() {
-        return 0;
+    public boolean attack() {
+        return isAttack();
     }
 }
