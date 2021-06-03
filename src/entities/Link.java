@@ -12,8 +12,8 @@ public class Link extends Player {
     }
 
     @Override
-    public int run() {
-        return 0;
+    public boolean run() {
+        return isRun();
     }
 
     @Override

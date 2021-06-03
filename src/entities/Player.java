@@ -16,6 +16,7 @@ public abstract class Player implements Action, Serializable {
     private int speed;
     private int x;
     private int y;
+    private boolean run;
     private Controller controller;
     private List<Player> players = new ArrayList<>();
 
@@ -73,5 +74,13 @@ public abstract class Player implements Action, Serializable {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public boolean isRun() {
+        return run;
+    }
+
+    public void setRun(boolean run) {
+        this.run = run;
     }
 }

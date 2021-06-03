@@ -14,6 +14,7 @@ public class Controller  implements KeyListener {
 
     private int x;
     private int y;
+    private boolean run;
 
     public Controller(List<Player> players) {
         this.players = players;
@@ -46,6 +47,9 @@ public class Controller  implements KeyListener {
             case VK_W:
                 players.forEach(player -> player.setY(--y));
                 break;
+
+            case VK_R:
+                players.forEach(player -> player.setRun(true));
         }
     }
 
@@ -67,6 +71,9 @@ public class Controller  implements KeyListener {
             case VK_W:
                 players.forEach(player -> player.setY(y));
                 break;
+
+            case VK_R:
+                players.forEach(player -> player.setRun(false));
         }
     }
 }
