@@ -9,22 +9,23 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 import static java.util.Objects.isNull;
+import static util.Direction.*;
 
 public class Screen extends Canvas implements Runnable{
 
         private int width;
         private int height;
-        private String title;
+        private int positionX;
+        private int positionY;
+        private int direction;
+        private float frame;
+        private  float maxFrames = 1f;
+        private  int animation;
+        private int maxAnimation;
         private JFrame jFrame;
         private BufferStrategy bufferStrategy;
         private Graphics graphics;
         private Sprite sprite;
-        private int position;
-        private int direction;
-        private float frame = 0;
-        private  float maxFrames = 1.5f;
-        private  int animation = 0;
-        private final int maxAnimation = 1044;
         private Player player;
         private Controller controller;
 
@@ -32,7 +33,6 @@ public class Screen extends Canvas implements Runnable{
             jFrame = new JFrame(title);
             this.width = width;
             this.height = height;
-            this.title = title;
             initialize();
         }
 
@@ -45,6 +45,8 @@ public class Screen extends Canvas implements Runnable{
             if (isNull(controller)) controller = new Controller(player);
 
             this.addKeyListener(controller); // Inicializa os controles
+
+            if (isNull(sprite)) sprite = new Sprite("/images/link.png");
         }
 
         public void create () {
@@ -61,40 +63,83 @@ public class Screen extends Canvas implements Runnable{
 
         public void update () {
 
+            /**
+             * @Author: Victor Pinho
+             * @Since: 06/06/2021
+             *
+             * Observações:
+             * Levando em conta um conjunto de sprite de 116 x 116.
+             *
+             * @param animation : Posição x em relação o conjunto de sprites, onde o primeiro está em 0.
+             * @param direction : Posição y em relação o conjunto de sprites, onde o primeiro está em 0. Cada posição y contém as imagens que mostram a direção do personagem.
+             * @param positionX :  Coordenada que guarda a posição do personagem na tela.
+             * @param positionY :  Coordenada que guarda a posição do personagem na tela.
+             */
+
             frame += 0.5f;
             if (frame > maxFrames) {
                 frame = 0;
 
+                // Direções do player se um botão é pressionado
                 boolean right = player.right();
                 boolean left = player.left();
                 boolean up = player.up();
                 boolean down = player.down();
 
                 // Posiciona o sprite na posição inicial
-                if (!right && direction == 0) animation = 464;
-                if (!left && direction == 116) animation = 116;
+                if (!right && direction == RIGHT) {
+                    direction =STOP_RIGHT;
+                    animation = 0;
+                }
+                if (!left && direction == LEFT) {
+                    direction = STOP_LEFT;
+                    animation = 0;
+                }
+                if (!up && direction == UP) {
+                    direction = STOP_UP;
+                    animation = 0;
+                }
+                if (!down && direction == DOWN) {
+                    direction = STOP_DOWN;
+                    animation = 0;
+                }
 
                 if (right) {
+                    maxAnimation = 1160;
                     animation += 116;
                     direction = 0;
-                    position ++;
+                    positionX++ ;
                 }
-                else if (left) {
+                if (left) {
+                    maxAnimation = 1160;
                     animation += 116;
                     direction = 116;
-                    position --;
+                    positionY-- ;
+                }
+                if (up) {
+                    maxAnimation = 1160;
+                    animation += 116;
+                    direction = 348;
+                    positionY-- ;
+                }
+                if (down) {
+                    maxAnimation = 1160;
+                    animation += 116;
+                    direction = 232;
+                    positionY++ ;
                 }
 
                 // Verifica e controla se o personagem deve correr
                 boolean run = player.isRun();
                 if (run && right || run && left) {
                     maxFrames = 0;
-                    if (direction == 0) position += 3;
-                    if (direction == 116) position -= 3;
+                    // Desloca o personagem com maior agilidade
+                    if (direction == RIGHT) ++positionX;
+                    if (direction == LEFT) --positionX;
                 }
-                else maxFrames = 1.5f;
+                else maxFrames = 1f;
 
-                if (animation == maxAnimation || animation == -maxAnimation) {
+                if (animation == maxAnimation) {
                     animation =  0;
                 }
             }
@@ -115,9 +160,7 @@ public class Screen extends Canvas implements Runnable{
 
             if (isNull(graphics)) graphics = bufferStrategy.getDrawGraphics();
 
-            if (isNull(sprite)) sprite = new Sprite("/images/link.png");
-
-            graphics.drawImage(sprite.getImageByPosition(animation,direction, 116, 116), position, 300,null);
+            graphics.drawImage(sprite.getImageByPosition(animation,direction, 116, 116), positionX, positionY,null);
 
             bufferStrategy.show();
 
